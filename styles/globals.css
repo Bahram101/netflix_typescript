@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* tags */
+@layer base{
+  body{
+    @apply bg-[#141414] text-white;
+  }
+}
+
+/* custom class names */
+@layer components {
+  /* .headerLink{
+    color:red;
+  } */
+
+  .headerLink {
+    @apply cursor-pointer text-sm font-light text-[#e5e5e5] hover:text-[#b3b3b3] transition duration-[0.4];
+  }
+}

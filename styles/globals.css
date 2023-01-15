@@ -3,9 +3,12 @@
 @tailwind utilities;
 
 /* tags */
-@layer base{
-  body{
+@layer base {
+  body {
     @apply bg-[#141414] text-white;
+  }
+  header {
+    @apply fixed top-0 z-50 flex w-full items-center justify-between px-4 py-4 transition-all;
   }
 }
 
@@ -17,5 +20,8 @@
 
   .headerLink {
     @apply cursor-pointer text-sm font-light text-[#e5e5e5] hover:text-[#b3b3b3] transition duration-[0.4];
+  }
+  .bannerButton {
+    @apply flex items-center gap-x-2 rounded px-5 py-1.5 text-sm font-semibold transition hover:opacity-75 md:px-8 md:py-2.5 md:text-xl bg-red-500;
   }
 }

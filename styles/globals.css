@@ -25,6 +25,6 @@
     @apply flex items-center gap-x-2 rounded px-5 py-1.5 text-sm font-semibold transition hover:opacity-75 md:px-8 md:py-2.5 md:text-xl bg-red-500;
   }
   .rowArrow {
-    @apply absolute top-0 bottom-0  w-9 h-9 z-40 m-auto cursor-pointer transition hover:scale-125;
+    @apply absolute top-0 bottom-0  w-9 h-9 z-40 m-auto cursor-pointer opacity-0 group-hover:opacity-100 transition hover:scale-125;
   }
 }

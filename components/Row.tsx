@@ -26,11 +26,10 @@ const Row = ({ title, movies }: Props) => {
  
 
   };
-
-  console.log("rrr",rowRef.current?.scrollLeft);
+ 
 
   return (
-    <div className="h-40 space-y-0.5 md:space-y-2 mb-5">
+    <div className="h-40 ">
       <h2 className="inline text-sm font-semibold cursor-pointer text-[#e5e5e5] transition hover:text-white md:text-2xl">
         {title}
       </h2>

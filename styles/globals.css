@@ -27,4 +27,7 @@
   .rowArrow {
     @apply absolute top-0 bottom-0 w-4 h-4 md:w-7 md:h-7 bg-black z-40 m-auto cursor-pointer opacity-0 group-hover:opacity-100 transition hover:scale-110;
   }
+  .input{
+    @apply w-full rounded bg-[#333] px-5 py-3.5 placeholder-[gray] outline-none focus:bg-[#454545] transition
+  }
 }

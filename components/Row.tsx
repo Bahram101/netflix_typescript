@@ -10,8 +10,8 @@ interface Props {
 
 const Row = ({ title, movies }: Props) => {
   const rowRef = useRef<HTMLDivElement>(null);
-  const [isMoved, setIsMoved] = useState(false); 
- 
+  const [isMoved, setIsMoved] = useState(false);
+
   const handleClick = (direction: string) => {
     setIsMoved(true);
     if (rowRef.current) {
@@ -20,24 +20,21 @@ const Row = ({ title, movies }: Props) => {
         direction === "left"
           ? scrollLeft - clientWidth
           : scrollLeft + clientWidth;
-      rowRef.current.scrollTo({ left: scrolled, behavior: "smooth" }); 
-      
+      rowRef.current.scrollTo({ left: scrolled, behavior: "smooth" });
     }
- 
-
   };
- 
 
   return (
-    <div className="h-40 ">
+    <div >
       <h2 className="inline text-sm font-semibold cursor-pointer text-[#e5e5e5] transition hover:text-white md:text-2xl">
         {title}
       </h2>
       <div className="group h-30 relative md:-ml-2">
         <ChevronLeftIcon
           onClick={() => handleClick("left")}
-          className={`rowArrow left-2 ${!isMoved && "hidden"}`} 
+          className={`rowArrow left-2 ${!isMoved && "hidden"}`}
         />
+
         <div
           ref={rowRef}
           className="flex items-center space-x-2  scrollbar-hide overflow-x-scroll  md:space-x-2.5 md:p-2"

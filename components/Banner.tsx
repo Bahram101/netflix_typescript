@@ -4,6 +4,8 @@ import { Movie } from "../types/typings";
 import { image_url } from "../utils/requests";
 import { FaPlay } from "react-icons/fa";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
+import { useRecoilState } from "recoil";
+import { modalState, movieState } from "../atoms/modalAtom";
 
 interface Props {
   netflixOriginals: Movie[];
@@ -11,6 +13,8 @@ interface Props {
 
 const Banner: FC<Props> = ({ netflixOriginals }) => {
   const [movie, setMovie] = useState<Movie | null>(null);
+  const [showModal, setShowModal] = useRecoilState(modalState);
+  const [currentMovie, setCurrentMovie] = useRecoilState(movieState);
 
   useEffect(() => {
     setMovie(
@@ -39,9 +43,15 @@ const Banner: FC<Props> = ({ netflixOriginals }) => {
           <FaPlay className="w-4 h-4 text-black md:w-7 md:h-7" />
           Play
         </button>
-        <button className="bannerButton bg-[gray]/70">
+        <button
+          className="bannerButton bg-[gray]/70"
+          onClick={() => {
+            setCurrentMovie(movie);
+            setShowModal(true);
+          }}
+        >
           <InformationCircleIcon className="w-5 h-5 md:w-8 md:h-8" />
-          More Info 
+          More Info
         </button>
       </div>
     </div>

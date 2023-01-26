@@ -1,12 +1,13 @@
-import { FC } from "react";
-import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import Banner from "../components/Banner";
 import Header from "../components/Header";
+import Modal from "../components/Modal";
 import { Movie } from "../types/typings";
 import { requests } from "../utils/requests";
 import Row from "../components/Row";
+import useAuth from "../hooks/useAuth";
+import { useRecoilValue } from "recoil";
+import { modalState } from "../atoms/modalAtom";
 
 interface Props {
   netflixOriginals: Movie[];
@@ -29,6 +30,12 @@ const Home = ({
   romanceMovies,
   documentaries,
 }: Props) => {
+  const { logOut, loading, user } = useAuth();
+  const showModal = useRecoilValue(modalState);
+
+  if (loading) return null;
+  console.log("currentUser", user);
+
   return (
     <div className="relative h-screen bg-gradient-to-b  lg:h-[140vh] ">
       <Head>
@@ -47,8 +54,9 @@ const Home = ({
           <Row title="Comedies" movies={comedyMovies} />
           <Row title="Horrors films" movies={horrorMovies} />
           <Row title="Romance films" movies={romanceMovies} />
-          <Row title="Documentaries" movies={documentaries} /> 
+          <Row title="Documentaries" movies={documentaries} />
         </section>
+        {showModal && <Modal />}
       </main>
     </div>
   );

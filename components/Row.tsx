@@ -25,7 +25,7 @@ const Row = ({ title, movies }: Props) => {
   };
 
   return (
-    <div >
+    <div>
       <h2 className="inline text-sm font-semibold cursor-pointer text-[#e5e5e5] transition hover:text-white md:text-2xl">
         {title}
       </h2>

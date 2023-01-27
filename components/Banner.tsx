@@ -11,10 +11,12 @@ interface Props {
   netflixOriginals: Movie[];
 }
 
-const Banner: FC<Props> = ({ netflixOriginals }) => {
+const Banner = ({ netflixOriginals }: Props) => {
   const [movie, setMovie] = useState<Movie | null>(null);
-  const [showModal, setShowModal] = useRecoilState(modalState);
   const [currentMovie, setCurrentMovie] = useRecoilState(movieState);
+  const [showModal, setShowModal] = useRecoilState(modalState);
+
+  console.log('curMov', currentMovie);
 
   useEffect(() => {
     setMovie(

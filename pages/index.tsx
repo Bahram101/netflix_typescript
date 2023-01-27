@@ -33,9 +33,8 @@ const Home = ({
   const { logOut, loading, user } = useAuth();
   const showModal = useRecoilValue(modalState);
 
-  if (loading) return null;
-  console.log("currentUser", user);
-
+  if (loading) return null; 
+  
   return (
     <div className="relative h-screen bg-gradient-to-b  lg:h-[140vh] ">
       <Head>

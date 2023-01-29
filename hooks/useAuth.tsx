@@ -14,7 +14,7 @@ interface IAuth {
   user: User | null;
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
+  logOut: () => Promise<void>;
   error: string | null;
   loading: boolean;
 }
@@ -23,7 +23,7 @@ const AuthContext = createContext<IAuth>({
   user: null,
   signUp: async () => {},
   signIn: async () => {},
-  logout: async () => {},
+  logOut: async () => {},
   error: null,
   loading: false,
 });
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       .finally(() => setLoading(false));
   };
 
-  const logout = async () => {
+  const logOut = async () => {
     setLoading(true);
 
     signOut(auth)
@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const memoedValue = useMemo(
-    () => ({ user, signUp, signIn, error, loading, logout }),
+    () => ({ user, signUp, signIn, error, loading, logOut }),
     [user, loading, error]
   );
 
@@ -106,8 +106,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   );
 };
 
-// Let's only export the `useAuth` hook instead of the context.
-// We only want to use the hook directly and never the context comopnent.
+
 export default function useAuth() {
   return useContext(AuthContext);
 }

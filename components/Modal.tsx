@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import {
+  CheckBadgeIcon,
+  CheckIcon,
+  XMarkIcon,
+  PauseIcon,
+} from "@heroicons/react/24/solid";
+
 import {
   HiPlus,
   HiPlay,
@@ -7,19 +13,26 @@ import {
   HiSpeakerXMark,
   HiHandThumbUp,
 } from "react-icons/hi2";
-// import { FaPlay } from "react-icons/fa";
 import MuiModal from "@mui/material/Modal";
 import { useRecoilState } from "recoil";
 import { modalState, movieState } from "../atoms/modalAtom";
-import { Element, Genre } from "../types/typings";
+import { Element, Genre, Movie } from "../types/typings";
 import ReactPlayer from "react-player";
+import toast, { Toaster } from "react-hot-toast";
+import { deleteDoc, doc, DocumentData, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import useAuth from "../hooks/useAuth";
 
 const Modal = () => {
   const [showModal, setShowModal] = useRecoilState(modalState);
   const [movie, setMovie] = useRecoilState(movieState);
   const [trailer, setTrailer] = useState("");
   const [genres, setGenres] = useState<Genre[]>([]);
-  const [muted, setMuted] = useState(true);
+  const [muted, setMuted] = useState(false);
+  const [addedToList, setAddedToList] = useState(false);
+  const { user } = useAuth();
+  const [movies, setMovies] = useState<DocumentData[] | Movie[]>([]);
+  const [playing, setPlaying] = useState(true);
 
   useEffect(() => {
     if (!movie) return;
@@ -52,6 +65,30 @@ const Modal = () => {
     setShowModal(false);
   };
 
+  useEffect(
+    () =>
+      setAddedToList(
+        movies.findIndex((result) => result.data().id === movie?.id) !== -1
+      ),
+    [movies]
+  );
+
+  const handleList = async () => {
+    if (addedToList) {
+      await deleteDoc(
+        doc(db, "customer", user!.uid, "myList", movie?.id.toString()!)
+      );
+      toast(`${movie?.title} has been removed`);
+    } else {
+      await setDoc(
+        doc(db, "customer", user!.uid, "myList", movie?.id.toString()!),
+        { ...movie }
+      );
+    }
+  };
+
+  console.log("pl", playing);
+
   return (
     <MuiModal
       open={showModal}
@@ -59,6 +96,7 @@ const Modal = () => {
       className="fixed !top-10 z-50 mx-auto max-w-4xl scrollbar-hide overflow-y-scroll"
     >
       <>
+        <Toaster position="top-center" />
         <button
           onClick={handleClose}
           className="modalButton absolute right-5 top-5 !z-40  bg-[#181818]"
@@ -71,16 +109,27 @@ const Modal = () => {
             width="100%"
             height="100%"
             style={{ position: "absolute", top: "0", left: "0" }}
-            playing
+            playing={!playing}
             muted={muted}
           />
           <div className="absolute bottom-10 flex w-full items-center justify-between px-6">
             <div className="flex space-x-2">
-              <button className="flex items-center rounded bg-white px-8 text-black px-8 transition hover:bg-[#e6e6e6] font-bold">
-                <HiPlay className="w-8 h-8 " /> Play
+              <button
+                className="flex items-center rounded bg-white px-8 text-black  transition hover:bg-[#e6e6e6] font-bold"
+                onClick={()=>setPlaying(!playing)}
+              >
+                {playing ? (
+                  <HiPlay className="w-8 h-8 " />
+                ) : (
+                  <PauseIcon className="w-8 h-8 " />
+                )}
               </button>
-              <button className="modalButton">
-                <HiPlus className="w-5 h-5 " />
+              <button className="modalButton" onClick={handleList}>
+                {addedToList ? (
+                  <CheckIcon className="w-5 h-5" />
+                ) : (
+                  <HiPlus className="w-5 h-5 " />
+                )}
               </button>
               <button className="modalButton">
                 <HiHandThumbUp className="w-5 h-5 " />
@@ -88,9 +137,9 @@ const Modal = () => {
             </div>
             <button className="modalButton" onClick={() => setMuted(!muted)}>
               {muted ? (
-                <HiSpeakerWave className="w-5 h-5" />
-              ) : (
                 <HiSpeakerXMark className="w-5 h-5" />
+              ) : (
+                <HiSpeakerWave className="w-5 h-5" />
               )}
             </button>
           </div>

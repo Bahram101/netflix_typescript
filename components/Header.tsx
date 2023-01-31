@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
+import BasicMenu from "./BasicMenu";
 // import { HiSearch } from "react-icons/hi";
 
 const Header = () => {
@@ -34,6 +35,8 @@ const Header = () => {
           height={100}
           className="cursor-pointer object-contain"
         />
+
+        <BasicMenu />
         <ul className="hidden md:flex space-x-4">
           <li className="headerLink">Home</li>
           <li className="headerLink">TV Shows</li>

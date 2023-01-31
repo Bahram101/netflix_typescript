@@ -85,7 +85,7 @@ const Login: FC = () => {
           className="bg-[#e50914] rounded py-3 w-full font-semibold"
           onClick={() => setLogin(true)}
         >
-          {loading ? 'loading' : 'Sign in'}
+          Sign in
         </button>
         <div className="text-[gray]">
           New to Netflix?{" "}
